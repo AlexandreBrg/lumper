@@ -1,5 +1,5 @@
 use crate::config;
-use crate::config::{KernelConfig, VMMConfig};
+use crate::config::{KernelConfig, NetConfig, VMMConfig};
 use std::convert::TryInto;
 
 impl VMMConfig {
@@ -64,11 +64,13 @@ impl VMMConfigBuilder {
         self
     }
 
-    pub fn tap(mut self, tap_name: Option<String>) -> Self {
-        self.tap = match tap_name.try_into() {
-            Ok(cfg) => Some(cfg),
-            _ => None,
-        };
-        self
+    pub fn tap(mut self, tap_name: Option<String>) -> Result<Self, config::Error> {
+        if tap_name.is_none() {
+            return Ok(self);
+        }
+
+        let tap: NetConfig = tap_name.unwrap().try_into()?;
+        self.tap = Some(tap);
+        Ok(self)
     }
 }
