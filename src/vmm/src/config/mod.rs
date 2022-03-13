@@ -121,6 +121,7 @@ mod tests {
     use super::*;
     use crate::config::KernelConfig;
     use std::convert::TryInto;
+    use crate::config::Error as ConfigError;
 
     type Error = crate::Error;
 
@@ -169,7 +170,7 @@ mod tests {
     fn test_success_try_from_string_netconfig() {
         let origin = Some(String::from("str"));
 
-        let target: Result<NetConfig, Error> = origin.clone().try_into();
+        let target: Result<NetConfig, ConfigError> = origin.clone().try_into();
         assert_eq!(false, target.is_err());
         assert_eq!(
             NetConfig {
