@@ -22,7 +22,7 @@ ioctl_iow_nr!(TUNSETVNETHDRSZ, TUNTAP, 216, ::std::os::raw::c_int);
 /// Virtual Tunnel struct used create a TUN/TAP device
 #[derive(Debug)]
 pub struct Tap {
-    file: File,
+    pub file: File,
     pub(crate) if_name: [u8; IFACE_NAME_MAX_LEN],
 }
 
